@@ -108,3 +108,20 @@ img {
 .btn-primary {
   align-self: center; /* Center the button horizontally within the card */
 }
+
+.card-modal {
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack elements vertically */
+  width: 50%;
+}
+
+.card-modal-body {
+  flex-grow: 1; /* Allow the body to grow to fill the remaining space */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: space-between; /* Space items evenly along the vertical axis */
+}
+
+#totalPriceContainer {
+  text-align: center;
+}

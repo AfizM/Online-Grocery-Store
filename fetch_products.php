@@ -29,7 +29,7 @@ if(isset($_GET['category'])) {
             echo '<p class="card-text"><strong>Unit Quantity: </strong>' . $row['unit_quantity'] . '</p>';
             echo '<p class="card-text"><strong>In Stock: </strong>' . $row['in_stock'] . '</p>';
             echo '<div class="centreBtn">';
-            echo '<button type="button"class="btn btn-primary onclick="addToCart(itemData)" data-dismiss="modal">Add to Cart</button>';
+            echo '<button type="button" class="btn btn-primary" onclick="addToCart(\'' . $row['product_name'] . '\', \'' . $row['unit_price'] . '\', \'' . $row['img'] . '\', \'' . $row['unit_quantity'] . '\')">Add to Cart</button>';
             echo '</div>';
             echo '</div>';
             echo '</div>';

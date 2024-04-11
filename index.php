@@ -1,3 +1,7 @@
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -156,6 +160,12 @@
                     <div class="modal-body">
                         <!-- Template card for products -->
                         <div id="cartItemsContainer"></div>
+                        <p id="totalPriceContainer"></p>
+                        <button type="button" id="clearCartButton" class="btn btn-danger">Clear Cart</button>
+                        <button type="button" class="btn btn-primary openshopbutton" id="proceedToDeliveryButton" data-toggle="modal" data-target="#deliveryDetailsModal">
+    Proceed to Delivery Details
+</button>
+
 
                     </div>
                     <div class="modal-footer">
@@ -238,28 +248,114 @@
 let shoppingCart = [];
 
 // Function to add item to cart
-function addToCart(item) {
-    shoppingCart.push(item);
+function addToCart(name, price, image, unit_quantity) {
+    // Check if the item is already in the cart
+    const existingItemIndex = shoppingCart.findIndex(item => item.name === name);
+    if (existingItemIndex !== -1) {
+        // If the item is already in the cart, increment its quantity by one
+        shoppingCart[existingItemIndex].quantity++;
+    } else {
+        // Otherwise, add the item to the cart
+        const item = {
+            name: name,
+            price: price,
+            image: image,
+            unit_quantity: unit_quantity,
+            quantity: 1
+        };
+        shoppingCart.push(item);
+    }
+    updateCartModal();
+
+}
+
+
+// Function to increment the quantity of an item in the cart
+function incrementQuantity(index) {
+    shoppingCart[index].quantity++;
+    updateCartModal();
+}
+
+// Function to decrement the quantity of an item in the cart
+function decrementQuantity(index) {
+    if (shoppingCart[index].quantity > 1) {
+        shoppingCart[index].quantity--;
+        updateCartModal();
+    }
+}
+
+// Function to remove an item from the cart
+function removeFromCart(index) {
+    shoppingCart.splice(index, 1);
+    updateCartModal();
+}
+
+// Function to update the quantity of an item in the cart
+function updateQuantity(index, newQuantity) {
+    if (newQuantity > 0) {
+        shoppingCart[index].quantity = newQuantity;
+        updateCartModal();
+    }
+}
+
+// Function to calculate the total price of the shopping cart
+function calculateTotalPrice() {
+    let totalPrice = 0;
+    shoppingCart.forEach(item => {
+        totalPrice += item.price * item.quantity;
+    });
+    return totalPrice;
+}
+
+function clearShoppingCart() {
+    shoppingCart = [];
     updateCartModal();
 }
 
 // Function to update the shopping cart modal content
 function updateCartModal() {
     const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const totalPriceContainer = document.getElementById('totalPriceContainer');
+    const proceedToDeliveryButton = document.getElementById('proceedToDeliveryButton'); // Get the button element
+
     cartItemsContainer.innerHTML = ''; // Clear previous content
 
     // Generate HTML markup for each item in the cart
     shoppingCart.forEach(item => {
         const itemHTML = `
-            <div class="cart-item">
-                <img src="${item.image}" alt="${item.name}" />
-                <p>Name: ${item.name}</p>
-                <p>Price: $${item.price}</p>
-                <p>Quantity: ${item.quantity}</p>
+            <div class="card-modal">
+                <div class="card-modal-body">
+                    <div class="productimage">
+                        <img src="img/${item.image}" class="card-img" alt="${item.name}" />
+                    </div>
+                    <h5 class="card-title">${item.name}</h5>
+                    <p class="card-text"><strong>Price: </strong>$${item.price}</p>
+                    <p class="card-text"><strong>Unit Quantity: </strong>${item.unit_quantity}</p>
+                    <p class="card-text"><strong>Quantity: </strong>${item.quantity}</p>
+                </div>
             </div>
         `;
         cartItemsContainer.innerHTML += itemHTML;
     });
+
+    // Calculate total price
+    const totalPrice = calculateTotalPrice();
+    totalPriceContainer.innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+
+    // Enable/disable proceed to delivery button based on cart emptiness
+    if (shoppingCart.length > 0) {
+        proceedToDeliveryButton.removeAttribute('disabled'); // Enable the button
+    } else {
+        proceedToDeliveryButton.setAttribute('disabled', 'disabled'); // Disable the button
+    }
 }
+
+
+
+
+document.getElementById('clearCartButton').addEventListener('click', clearShoppingCart);
+
+
+
 
     </script>
