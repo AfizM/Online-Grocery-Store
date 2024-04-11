@@ -139,6 +139,7 @@
 
         <!-- Product Cards -->
         <div class="cards">
+            
            
         </div>
 
@@ -244,118 +245,134 @@
     });
 
 
-    // Initialize empty cart array
-let shoppingCart = [];
 
-// Function to add item to cart
-function addToCart(name, price, image, unit_quantity) {
-    // Check if the item is already in the cart
-    const existingItemIndex = shoppingCart.findIndex(item => item.name === name);
-    if (existingItemIndex !== -1) {
-        // If the item is already in the cart, increment its quantity by one
-        shoppingCart[existingItemIndex].quantity++;
-    } else {
-        // Otherwise, add the item to the cart
-        const item = {
-            name: name,
-            price: price,
-            image: image,
-            unit_quantity: unit_quantity,
-            quantity: 1
-        };
-        shoppingCart.push(item);
-    }
-    updateCartModal();
-
+// Function to add items to the cart
+function addToCart(productId, productName, productPrice, productImage, unitQuantity) {
+    $.ajax({
+        url: 'add_to_cart.php',
+        type: 'POST',
+        data: {
+            productId: productId,
+            productName: productName,
+            productPrice: productPrice,
+            productImage: productImage,
+            unitQuantity: unitQuantity
+        },
+        dataType: 'json', // Expect JSON response
+        success: function(response) {
+            if (response.success) {
+                // Cart item added successfully, update the cart items container
+                fetchCartItems();
+            } else {
+                console.error('Failed to add item to cart');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
 }
 
-
-// Function to increment the quantity of an item in the cart
-function incrementQuantity(index) {
-    shoppingCart[index].quantity++;
-    updateCartModal();
+// Function to fetch and display cart items
+function fetchCartItems() {
+    $.ajax({
+        url: 'fetch_cart_items.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            // Clear previous cart items
+            $('#cartItemsContainer').empty();
+            // Iterate through each item in the cart and generate HTML
+            response.forEach(function(item) {
+                console.log(item.productId);
+                var html = '<div class="card-modal">';
+                html += '<div class="card-modal-body">';
+                html += '<div class="productimage">';
+                html += '<img src="img/' + item.productImage + '" class="card-img" alt="' + item.productName + '" />';
+                html += '</div>';
+                html += '<h5 class="card-title">' + item.productName + '</h5>';
+                html += '<p class="card-text"><strong>Price: </strong>$' + item.productPrice + '</p>';
+                html += '<p class="card-text"><strong>Unit Quantity: </strong>' + item.unitQuantity + '</p>';
+                html += '<p class="card-text"><strong>Quantity: </strong>' + item.quantity + '</p>';
+                html += '<button type="button" class="btn btn-danger" onclick="removeFromCart(' + item.productId + ')">Remove Item</button>';
+                html += '</div>';
+                html += '</div>';
+                $('#cartItemsContainer').append(html);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
 }
 
-// Function to decrement the quantity of an item in the cart
-function decrementQuantity(index) {
-    if (shoppingCart[index].quantity > 1) {
-        shoppingCart[index].quantity--;
-        updateCartModal();
-    }
-}
-
-// Function to remove an item from the cart
-function removeFromCart(index) {
-    shoppingCart.splice(index, 1);
-    updateCartModal();
+function removeFromCart(productId) {
+    console.log(productId);
+    $.ajax({
+        url: 'remove_from_cart.php',
+        type: 'POST',
+        data: { productId: productId },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                // Reload the cart items after successful removal
+                fetchCartItems();
+            } else {
+                console.error('Failed to remove item from cart');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
 }
 
 // Function to update the quantity of an item in the cart
-function updateQuantity(index, newQuantity) {
-    if (newQuantity > 0) {
-        shoppingCart[index].quantity = newQuantity;
-        updateCartModal();
-    }
-}
-
-// Function to calculate the total price of the shopping cart
-function calculateTotalPrice() {
-    let totalPrice = 0;
-    shoppingCart.forEach(item => {
-        totalPrice += item.price * item.quantity;
+function updateCartItemQuantity(productId, quantity) {
+    $.ajax({
+        url: 'update_cart_item_quantity.php',
+        type: 'POST',
+        data: { productId: productId, quantity: quantity },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                // Reload the cart items after successful update
+                fetchCartItems();
+            } else {
+                console.error('Failed to update item quantity');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
     });
-    return totalPrice;
 }
 
-function clearShoppingCart() {
-    shoppingCart = [];
-    updateCartModal();
-}
-
-// Function to update the shopping cart modal content
-function updateCartModal() {
-    const cartItemsContainer = document.getElementById('cartItemsContainer');
-    const totalPriceContainer = document.getElementById('totalPriceContainer');
-    const proceedToDeliveryButton = document.getElementById('proceedToDeliveryButton'); // Get the button element
-
-    cartItemsContainer.innerHTML = ''; // Clear previous content
-
-    // Generate HTML markup for each item in the cart
-    shoppingCart.forEach(item => {
-        const itemHTML = `
-            <div class="card-modal">
-                <div class="card-modal-body">
-                    <div class="productimage">
-                        <img src="img/${item.image}" class="card-img" alt="${item.name}" />
-                    </div>
-                    <h5 class="card-title">${item.name}</h5>
-                    <p class="card-text"><strong>Price: </strong>$${item.price}</p>
-                    <p class="card-text"><strong>Unit Quantity: </strong>${item.unit_quantity}</p>
-                    <p class="card-text"><strong>Quantity: </strong>${item.quantity}</p>
-                </div>
-            </div>
-        `;
-        cartItemsContainer.innerHTML += itemHTML;
+// Function to clear the shopping cart
+function clearCart() {
+    $.ajax({
+        url: 'clear_cart.php',
+        type: 'POST',
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                // Reload the cart items after successful clearing
+                fetchCartItems();
+            } else {
+                console.error('Failed to clear the shopping cart');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
     });
-
-    // Calculate total price
-    const totalPrice = calculateTotalPrice();
-    totalPriceContainer.innerText = `Total Price: $${totalPrice.toFixed(2)}`;
-
-    // Enable/disable proceed to delivery button based on cart emptiness
-    if (shoppingCart.length > 0) {
-        proceedToDeliveryButton.removeAttribute('disabled'); // Enable the button
-    } else {
-        proceedToDeliveryButton.setAttribute('disabled', 'disabled'); // Disable the button
-    }
 }
 
 
-
-
-document.getElementById('clearCartButton').addEventListener('click', clearShoppingCart);
-
-
+// Call fetchCartItems initially to load cart items when the page loads
+$(document).ready(function() {
+    fetchCartItems();
+});
 
 
     </script>
