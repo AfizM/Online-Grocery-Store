@@ -22,14 +22,14 @@ if(isset($_GET['category'])) {
             echo '<div class="card">';
             echo '<div class="card-body">';
             echo '<div class="productimage">';
-            echo '<img src="img/fish500g.jpg" class="card-img" alt="Product Image" />';
+            echo '<img src="img/' . $row['img'] . '" class="card-img" alt="Product Image" />';
             echo '</div>';  
             echo '<h5 class="card-title">' . $row['product_name'] . '</h5>';
             echo '<p class="card-text"><strong>Unit Price: </strong>$' . $row['unit_price'] . '</p>';
             echo '<p class="card-text"><strong>Unit Quantity: </strong>' . $row['unit_quantity'] . '</p>';
             echo '<p class="card-text"><strong>In Stock: </strong>' . $row['in_stock'] . '</p>';
             echo '<div class="centreBtn">';
-            echo '<button type="button"class="btn btn-primary" data-dismiss="modal">Add to Cart</button>';
+            echo '<button type="button"class="btn btn-primary onclick="addToCart(itemData)" data-dismiss="modal">Add to Cart</button>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -51,14 +51,17 @@ if(isset($_GET['category'])) {
         // Loop through each fetched product and generate a card
         while($row = mysqli_fetch_assoc($result)) {
             echo '<div class="card">';
-            echo '<div class="productimage">';
-            echo '<img src="img/fish500g.jpg" class="card-img" alt="Product Image" />';
-            echo '</div>';
             echo '<div class="card-body">';
+            echo '<div class="productimage">';
+            echo '<img src="img/' . $row['img'] . '" class="card-img" alt="Product Image" />';
+            echo '</div>';  
             echo '<h5 class="card-title">' . $row['product_name'] . '</h5>';
-            echo '<p class="card-text">Unit Price: $' . $row['unit_price'] . '</p>';
-            echo '<p class="card-text">In Stock: ' . $row['in_stock'] . '</p>';
-            echo '<button type="button"class="btn btn-primary" data-dismiss="modal">Add to Cart</button>';
+            echo '<p class="card-text"><strong>Unit Price: </strong>$' . $row['unit_price'] . '</p>';
+            echo '<p class="card-text"><strong>Unit Quantity: </strong>' . $row['unit_quantity'] . '</p>';
+            echo '<p class="card-text"><strong>In Stock: </strong>' . $row['in_stock'] . '</p>';
+            echo '<div class="centreBtn">';
+            echo '<button type="button"class="btn btn-primary " data-dismiss="modal">Add to Cart</button>';
+            echo '</div>';
             echo '</div>';
             echo '</div>';
         }

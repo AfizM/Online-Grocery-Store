@@ -152,17 +152,10 @@
                         <h5 class="modal-title" id="shoppingListModalLabel">
                             Shopping Cart
                         </h5>
-                        <button
-                                type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                        >
-                            <span aria-hidden="false">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <!-- Template card for products -->
+                        <div id="cartItemsContainer"></div>
 
                     </div>
                     <div class="modal-footer">
@@ -239,4 +232,34 @@
         var keyword = $("#searchInput").val().trim(); // Get the search keyword
         searchProducts(keyword); // Fetch products based on the search keyword
     });
+
+
+    // Initialize empty cart array
+let shoppingCart = [];
+
+// Function to add item to cart
+function addToCart(item) {
+    shoppingCart.push(item);
+    updateCartModal();
+}
+
+// Function to update the shopping cart modal content
+function updateCartModal() {
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    cartItemsContainer.innerHTML = ''; // Clear previous content
+
+    // Generate HTML markup for each item in the cart
+    shoppingCart.forEach(item => {
+        const itemHTML = `
+            <div class="cart-item">
+                <img src="${item.image}" alt="${item.name}" />
+                <p>Name: ${item.name}</p>
+                <p>Price: $${item.price}</p>
+                <p>Quantity: ${item.quantity}</p>
+            </div>
+        `;
+        cartItemsContainer.innerHTML += itemHTML;
+    });
+}
+
     </script>
