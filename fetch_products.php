@@ -20,14 +20,17 @@ if(isset($_GET['category'])) {
         // Loop through each fetched product and generate a card
         while($row = mysqli_fetch_assoc($result)) {
             echo '<div class="card">';
-            echo '<div class="productimage">';
-            echo '<img src="product-image.jpg" class="card-img" alt="Product Image" />';
-            echo '</div>';
             echo '<div class="card-body">';
+            echo '<div class="productimage">';
+            echo '<img src="img/fish500g.jpg" class="card-img" alt="Product Image" />';
+            echo '</div>';  
             echo '<h5 class="card-title">' . $row['product_name'] . '</h5>';
-            echo '<p class="card-text">Unit Price: $' . $row['unit_price'] . '</p>';
-            echo '<p class="card-text">In Stock: ' . $row['in_stock'] . '</p>';
+            echo '<p class="card-text"><strong>Unit Price: </strong>$' . $row['unit_price'] . '</p>';
+            echo '<p class="card-text"><strong>Unit Quantity: </strong>' . $row['unit_quantity'] . '</p>';
+            echo '<p class="card-text"><strong>In Stock: </strong>' . $row['in_stock'] . '</p>';
+            echo '<div class="centreBtn">';
             echo '<button type="button"class="btn btn-primary" data-dismiss="modal">Add to Cart</button>';
+            echo '</div>';
             echo '</div>';
             echo '</div>';
         }
@@ -40,7 +43,7 @@ if(isset($_GET['category'])) {
     $keyword = $_GET['keyword'];
 
     // Prepare and execute the SQL query to search for products based on the keyword
-    $sql = "SELECT * FROM products WHERE product_name LIKE '%$keyword%'";
+    $sql = "SELECT * FROM products WHERE CONCAT(product_name, ' ', unit_quantity) LIKE '%$keyword%'";
     $result = mysqli_query($conn, $sql);
 
     // Check if there are any results
@@ -49,7 +52,7 @@ if(isset($_GET['category'])) {
         while($row = mysqli_fetch_assoc($result)) {
             echo '<div class="card">';
             echo '<div class="productimage">';
-            echo '<img src="product-image.jpg" class="card-img" alt="Product Image" />';
+            echo '<img src="img/fish500g.jpg" class="card-img" alt="Product Image" />';
             echo '</div>';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">' . $row['product_name'] . '</h5>';
@@ -63,7 +66,9 @@ if(isset($_GET['category'])) {
         // If no products are found, display a message
         echo '<p>No products found matching your search.</p>';
     }
-} else {
+}
+
+else {
     // If neither category nor keyword parameters are provided, display an error message
     echo 'Error: Category or keyword parameter is missing.';
 }

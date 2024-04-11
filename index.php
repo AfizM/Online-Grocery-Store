@@ -26,8 +26,12 @@
                     <a href="#" class="category-link Frozen">Frozen</a>
                     <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>
                     <ul class="sub-categories">
-                        <li><a href="#">Frozen Subcategory 1</a></li>
-                        <li><a href="#">Frozen Subcategory 2</a></li>
+                        <li><a href="#" class="category-item">Fish Fingers 500 gram</a></li>
+                        <li><a href="#" class="category-item">Fish Fingers 1000 gram</a></li>
+                        <li><a href="#" class="category-item">Hamburger Patties Pack 10</a></li>
+                        <li><a href="#" class="category-item">Shelled Prawns 250 gram</a></li>
+                        <li><a href="#" class="category-item">Tub Ice Cream I Litre</a></li>
+                        <li><a href="#" class="category-item">Tub Ice Cream 2 Litre</a></li>
                     </ul>
                 </div>
             </li>
@@ -36,13 +40,67 @@
                     <a href="#" class="category-link Medicine">Medicine</a>
                     <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>
                     <ul class="sub-categories">
-                        <li><a href="#">Medicine Subcategory 1</a></li>
-                        <li><a href="#">Medicine Subcategory 2</a></li>
+                        <li><a href="#" class="category-item">Panadol Pack 24</a></li>
+                        <li><a href="#" class="category-item">Panadol Bottle 50</a></li>
+                        <li><a href="#" class="category-item">Bath Soap Pack 6</a></li>
+
                     </ul>
                 </div>
-            </li>
+                <div class="category">
+                    <a href="#" class="category-link Household">Household</a>
+                    <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>
+                    <ul class="sub-categories">
+                        <li><a href="#" class="category-item">Garbage Bags Small Pack 10</a></li>
+                        <li><a href="#" class="category-item">Garbage Bags Large Pack 50</a></li>
+                        <li><a href="#" class="category-item">Washing Powder 1000 gram</a></li>
+                        <li><a href="#" class="category-item">Laundry Bleach 2 Litre Bottle</a></li>
+                    </ul>
+                </div>
+                <div class="category">
+                    <a href="#" class="category-link Dairy">Dairy</a>
+                    <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>
+                    <ul class="sub-categories">
+                        <li><a href="#" class="category-item">Cheddar Cheese 500 gram</a></li>
+                        <li><a href="#" class="category-item">Cheddar Cheese 1000 gram</a></li>
+                    </ul>
+                </div>
+                <div class="category">
+                    <a href="#" class="category-link Fruit">Fruit</a>
+                    <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>
+                    <ul class="sub-categories">
+                        <li><a href="#" class="category-item">Navel Oranges Bag 20</a></li>
+                        <li><a href="#" class="category-item">Bananas   </a></li>
+                        <li><a href="#" class="category-item">Peaches Kilo</a></li>
+                        <li><a href="#" class="category-item">Grapes Kilo</a></li>
+                        <li><a href="#" class="category-item">Apples Kilo</a></li>
+                    </ul>
+                </div>
+                <div class="category">
+                    <a href="#" class="category-link Beverages">Beverages</a>
+                    <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>
+                    <ul class="sub-categories">
+                        <li><a href="#" class="category-item">Earl Grey Tea Bags Pack 25</a></li>
+                        <li><a href="#" class="category-item">Earl Grey Tea Bags Pack 100</a></li>
+                        <li><a href="#" class="category-item">Earl Grey Tea Bags Pack 200</a></li>
+                        <li><a href="#" class="category-item">Instant Coffee 200 gram</a></li>
+                        <li><a href="#" class="category-item">Instant Coffee 500 gram</a></li>
+                    </ul>
+                </div>
+                <div class="category">
+                    <a href="#" class="category-link Pet Food">Pet Food</a>
+                    <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>
+                    <ul class="sub-categories">
+                        <li><a href="#" class="category-item">Dry Dog Food 5 kg Pack</a></li>
+                        <li><a href="#" class="category-item">Dry Dog Food 1 kg Pack</a></li>
+                        <li><a href="#" class="category-item">Bird Food 500g packet</a></li>
+                        <li><a href="#" class="category-item">Cat Food 500g tin</a></li>
+                        <li><a href="#" class="category-item">Fish Food 500g packet</a></li>
+                    </ul>
+                </div>
+                
         </ul>
     </div>
+
     <!-- Main content area -->
     <div class="main-content">
         <h2>Search for product:</h2>
@@ -168,6 +226,15 @@
             });
         });
 
+        $(".category-item").click(function(e) {
+        e.preventDefault(); // Prevent default link behavior
+        var itemText = $(this).text().trim(); // Get the sub-category item text
+        searchProducts(itemText); // Fetch products based on the sub-category item
+    });
+
+        
+
+        // Handle search button click
         $("#searchButton").click(function() {
         var keyword = $("#searchInput").val().trim(); // Get the search keyword
         searchProducts(keyword); // Fetch products based on the search keyword

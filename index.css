@@ -71,3 +71,40 @@ body {
   border-color: black;
   border-style: solid;
 }
+
+img {
+  width: 260px;
+  height: 240px;
+  object-fit: scale-down;
+}
+
+.card-text {
+  font-size: 17px;
+  text-align: center;
+}
+.card-title {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.centreBtn {
+  align-self: center; /* Center the button horizontally within the card */
+}
+
+.card {
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack elements vertically */
+  width: 20%;
+}
+
+.card-body {
+  flex-grow: 1; /* Allow the body to grow to fill the remaining space */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: space-between; /* Space items evenly along the vertical axis */
+}
+
+.btn-primary {
+  align-self: center; /* Center the button horizontally within the card */
+}
