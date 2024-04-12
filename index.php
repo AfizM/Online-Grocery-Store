@@ -1,4 +1,7 @@
 
+<?php
+session_start(); // Start the session
+?>
 
 
 
@@ -132,6 +135,7 @@
                     class="btn btn-primary openshopbutton"
                     data-toggle="modal"
                     data-target="#shoppingListModal"
+                    id="openButton"
             >
                 Open Shopping Cart
             </button>
@@ -163,7 +167,7 @@
                         <div id="cartItemsContainer"></div>
                         <div class= "btm-cart-buttons">
                         <button type="button" class="btn btn-danger cart-btn" onclick="clearCart()">Clear Cart</button>
-                        <button type="button" class="btn btn-primary openshopbutton" id="proceedToDeliveryButton" data-toggle="modal" data-target="#deliveryDetailsModal">
+                        <button type="button" class="btn btn-primary openshopbutton " id="proceedToDeliveryButton" data-toggle="modal" data-target="#deliveryDetailsModal" onclick="clearCart()>
     Proceed to Delivery Details
 </button>
 </div>
@@ -184,11 +188,50 @@
             </div>
         </div>
     </div>
+
+
+
+
     <!-- Bootstrap JS and jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+            // Function to check if the shopping cart is empty
+            // Can do a get request instead
+            function isCartEmpty() {
+    return <?php echo empty($_SESSION['cart']) ? 'true' : 'false'; ?>;
+}
+        
+                   // Handle search button click
+        $("#openButton").click(function() {
+        fetchCartEmpty();
+    });
+
+    function fetchCartEmpty() {
+    let totalPrice = 0; // Initialize total price to zero
+    $.ajax({
+        url: 'cart_empty.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                console.log("The shopping cart is empty.");
+            } else {
+                console.log("The shopping cart is not empty.");
+            }
+
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+
+
+
+
+
         function toggleSubcategories(button) {
             const subCategories = button.nextElementSibling;
             subCategories.classList.toggle("open");
@@ -242,6 +285,14 @@
 
         // Handle search button click
         $("#searchButton").click(function() {
+        var keyword = $("#searchInput").val().trim(); // Get the search keyword
+        searchProducts(keyword); // Fetch products based on the search keyword
+    });
+
+
+
+        // Handle search button click
+        $("#proceedToDeliveryButton").click(function() {
         var keyword = $("#searchInput").val().trim(); // Get the search keyword
         searchProducts(keyword); // Fetch products based on the search keyword
     });
