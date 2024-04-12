@@ -161,11 +161,13 @@
                     <div class="modal-body">
                         <!-- Template card for products -->
                         <div id="cartItemsContainer"></div>
-                        <p id="totalPriceContainer"></p>
-                        <button type="button" id="clearCartButton" class="btn btn-danger">Clear Cart</button>
+                        <div class= "btm-cart-buttons">
+                        <button type="button" class="btn btn-danger cart-btn" onclick="clearCart()">Clear Cart</button>
                         <button type="button" class="btn btn-primary openshopbutton" id="proceedToDeliveryButton" data-toggle="modal" data-target="#deliveryDetailsModal">
     Proceed to Delivery Details
 </button>
+</div>
+<p id="totalPriceContainer"></p>
 
 
                     </div>
@@ -274,7 +276,9 @@ function addToCart(productId, productName, productPrice, productImage, unitQuant
 }
 
 // Function to fetch and display cart items
+// Function to fetch and display cart items
 function fetchCartItems() {
+    let totalPrice = 0; // Initialize total price to zero
     $.ajax({
         url: 'fetch_cart_items.php',
         type: 'GET',
@@ -294,17 +298,28 @@ function fetchCartItems() {
                 html += '<p class="card-text"><strong>Price: </strong>$' + item.productPrice + '</p>';
                 html += '<p class="card-text"><strong>Unit Quantity: </strong>' + item.unitQuantity + '</p>';
                 html += '<p class="card-text"><strong>Quantity: </strong>' + item.quantity + '</p>';
+                html += '<div class="input-group">';
+                html += '<input type="number" id="quantityInput_' + item.productId + '" class="form-control" value="' + item.quantity + '">';
+                html += '<div class="input-group-append">';
+                html += '<button class="btn btn-primary" type="button" onclick="updateCartItemQuantity(' + item.productId + ', document.getElementById(\'quantityInput_' + item.productId + '\').value)">Update Quantity</button>';
+                html += '</div>';
+                html += '</div>';
                 html += '<button type="button" class="btn btn-danger" onclick="removeFromCart(' + item.productId + ')">Remove Item</button>';
                 html += '</div>';
                 html += '</div>';
+
                 $('#cartItemsContainer').append(html);
+                totalPrice += parseFloat(item.productPrice) * parseInt(item.quantity);
             });
+            // Set the total price in the totalPriceContainer
+            $('#totalPriceContainer').text('Total Price: $' + totalPrice.toFixed(2));
         },
         error: function(xhr, status, error) {
             console.error(error);
         }
     });
 }
+
 
 function removeFromCart(productId) {
     console.log(productId);

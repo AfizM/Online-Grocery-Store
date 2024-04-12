@@ -10,7 +10,7 @@ if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
     foreach($_SESSION['cart'] as $productId => $item) {
         // Create an associative array representing the cart item
         $cartItem = [
-            'productId' => $item['product_id'],
+            'productId' => $productId,
             'productName' => $item['name'],
             'productPrice' => $item['price'],
             'productImage' => $item['image'],

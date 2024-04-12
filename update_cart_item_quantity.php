@@ -10,6 +10,7 @@ if(isset($_POST['productId'], $_POST['quantity'])) {
     if(isset($_SESSION['cart'][$productId])) {
         $_SESSION['cart'][$productId]['quantity'] = $quantity;
         
+        
         // Return success response
         echo json_encode(['success' => true]);
     } else {
