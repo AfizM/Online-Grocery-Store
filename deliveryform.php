@@ -6,49 +6,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery Details</title>
-    <!-- Include any CSS files if needed -->
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Additional CSS for centering the card */
+        container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        header {
+            margin-bottom: 50px;
+        }
+    </style>
 </head>
+<header class="bg-dark text-white py-4">
+    <div class="text-center">
+        <h1>Online Grocery Store</h1>
+    </div>
+</header>
+
 <body>
-    <h1>Delivery Details</h1>
-    <form id="deliveryForm" action="process_delivery_details.php" method="post" onsubmit="return validateForm()">
-        <div>
-            <label for="recipientName">Recipient's Name:</label>
-            <input type="text" id="recipientName" name="recipientName" required>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Delivery Details</h5>
+                        <form id="deliveryForm" action="confirmation.php" method="post" onsubmit="return validateForm()">
+                            <div class="form-group">
+                                <label for="recipientName">Recipient's Name:</label>
+                                <input type="text" class="form-control" id="recipientName" name="recipientName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="street">Street:</label>
+                                <input type="text" class="form-control" id="street" name="street" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="citySuburb">City/Suburb:</label>
+                                <input type="text" class="form-control" id="citySuburb" name="citySuburb" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State/Territory:</label>
+                                <select class="form-control" id="state" name="state" required>
+                                    <option value="">Select State/Territory</option>
+                                    <option value="NSW">New South Wales (NSW)</option>
+                                    <option value="VIC">Victoria (VIC)</option>
+                                    <option value="QLD">Queensland (QLD)</option>
+                                    <option value="WA">Western Australia (WA)</option>
+                                    <option value="SA">South Australia (SA)</option>
+                                    <option value="TAS">Tasmania (TAS)</option>
+                                    <option value="ACT">Australian Capital Territory (ACT)</option>
+                                    <option value="NT">Northern Territory (NT)</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobileNumber">Mobile Number:</label>
+                                <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" pattern="[0-9]{10}" required>
+                                <small class="form-text text-muted">Format: 10-digit number</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address:</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <input type="hidden" id="productNamesInput" name="productNames">
+<input type="hidden" id="productQuantitiesInput" name="productQuantities">
+<input type="hidden" id="totalPriceInput" name="totalPrice">
+                            <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="street">Street:</label>
-            <input type="text" id="street" name="street" required>
-        </div>
-        <div>
-            <label for="citySuburb">City/Suburb:</label>
-            <input type="text" id="citySuburb" name="citySuburb" required>
-        </div>
-        <div>
-            <label for="state">State/Territory:</label>
-            <select id="state" name="state" required>
-                <option value="">Select State/Territory</option>
-                <option value="NSW">New South Wales (NSW)</option>
-                <option value="VIC">Victoria (VIC)</option>
-                <option value="QLD">Queensland (QLD)</option>
-                <option value="WA">Western Australia (WA)</option>
-                <option value="SA">South Australia (SA)</option>
-                <option value="TAS">Tasmania (TAS)</option>
-                <option value="ACT">Australian Capital Territory (ACT)</option>
-                <option value="NT">Northern Territory (NT)</option>
-                <option value="Others">Others</option>
-            </select>
-        </div>
-        <div>
-            <label for="mobileNumber">Mobile Number:</label>
-            <input type="tel" id="mobileNumber" name="mobileNumber" pattern="[0-9]{10}" required>
-            <small>Format: 10-digit number</small>
-        </div>
-        <div>
-            <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <button type="submit" id="submitButton">Submit</button>
-    </form>
+    </div>
+
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
 
     <script>
         function validateForm() {
@@ -80,6 +122,11 @@
             return true;
         }
 
+        let allItemsAvailable = true;
+        let productNames = [];
+    let productQuantities = [];
+    let totalPrice = 0; // Initialize total price to zero
+
         // Disable submit button initially
         document.getElementById('submitButton').disabled = true;
 
@@ -90,55 +137,154 @@
         });
 
         // Function to check availability of items in the shopping cart
-function checkAvailability() {
-    // Loop through each item in the shopping cart
-    for (let i = 0; i < shoppingCart.length; i++) {
-        const item = shoppingCart[i];
-        // Perform an AJAX request to check the availability of the item
-        $.ajax({
-            url: "check_availability.php", // Provide the URL of the server-side script to check availability
-            type: "POST",
-            data: { productId: item.productId }, // Send the product ID or any other identifier to the server-side script
-            async: false, // Ensure synchronous execution to wait for the response
-            success: function(response) {
-                // Parse the response to determine availability
-                const available = response === "true";
-                if (!available) {
-                    // If item is not available, display a message and return false to indicate order cannot be placed
-                    alert(`Sorry, ${item.name} is currently out of stock.`);
-                    return false;
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-                // Handle error scenario appropriately
+        function checkAvailability(productId, quantity) {
+    // Perform an AJAX request to check the availability of the item
+    $.ajax({
+        url: "check_availability.php",
+        type: "POST",
+        data: { productId: productId, quantity: quantity },
+        dataType: 'json',
+        async: false,
+        success: function(response) {
+            // Parse the response to determine availability
+            available = response.available; // Access the 'available' property of the response
+            if (!available) {
+                // If item is not available, display a message and handle accordingly
+                alert(`Sorry, ${productId} is currently out of stock.`);
+                // You may want to disable the order button or take other actions here
+                allItemsAvailable = false;
+            } else {
+                // If item is available, you may want to enable the order button or proceed with the order
+                console.log(`${productId} is available.`);
+                // You may want to enable the order button or take other actions here
             }
-        });
-    }
-    // If all items are available, return true to indicate order can be placed
-    return true;
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            // Handle error scenario appropriately
+        }
+    });
+}
+
+
+
+
+function fetchCartItems() {
+    $.ajax({
+        url: 'fetch_cart_items.php',
+        type: 'GET',
+        dataType: 'json',
+        async: false,
+        success: function(response) {
+
+            // Iterate through each item in the cart and generate HTML
+            response.forEach(function(item) {
+                checkAvailability(item.productId,item.quantity);
+                if (!productNames.includes(item.productId)) {
+                    productNames.push(item.productName);
+                    productQuantities.push(item.quantity);
+                    totalPrice += parseFloat(item.productPrice) * parseInt(item.quantity);
+                }
+            });
+
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+
+function updateQuantity(productId, quantity) {
+    // Perform an AJAX request to check the availability of the item
+    $.ajax({
+        url: "update_quantity.php",
+        type: "POST",
+        data: { productId: productId, quantity: quantity },
+        dataType: 'json',
+        async: false,
+        success: function(response) {
+            console.log("success");
+            alert("success");   
+
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            // Handle error scenario appropriately
+        }
+    });
+}
+
+function fetchCartItemsToUpdate() {
+    $.ajax({
+        url: 'fetch_cart_items.php',
+        type: 'GET',
+        dataType: 'json',
+        async: false,
+        success: function(response) {
+
+            // Iterate through each item in the cart and generate HTML
+            response.forEach(function(item) {
+                console.log("updating");
+                updateQuantity(item.productId,item.quantity);
+            });
+
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+
+function clearCart() {
+    $.ajax({
+        url: 'clear_cart.php',
+        type: 'POST',
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+
+            } else {
+                console.error('Failed to clear the shopping cart');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
 }
 
 // Function to handle form submission
 function submitForm() {
-    // Validate the form inputs
-    if (!validateForm()) {
-        return false; // Return false if form validation fails
+        // If all items are available, submit the form
+        fetchCartItems();
+        if (allItemsAvailable) {
+            document.getElementById("productNamesInput").value = productNames.join(", ");
+        document.getElementById("productQuantitiesInput").value = productQuantities.join(", ");
+        document.getElementById("totalPriceInput").value = totalPrice.toFixed(2);
+        fetchCartItemsToUpdate();
+        clearCart();
+
+
+
+            document.getElementById("deliveryForm").submit();
+        } else {
+            // If any item is not available, prevent form submission
+            alert('Some items in your cart are out of stock. Please remove them or adjust the quantity.');
+             window.location.href = "index.php?showCartModal=true";
+            return false;
+        }
     }
-    // Check availability of items in the shopping cart
-    if (!checkAvailability()) {
-        return false; // Return false if any item is not available
-    }
-    // If form inputs are valid and all items are available, submit the form
-    document.getElementById("deliveryForm").submit();
-    return true;
-}
 
 // Attach submitForm function to form submission event
 document.getElementById("deliveryForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent default form submission
     submitForm(); // Call submitForm function to handle form submission
 });
+
+// $(document).ready(function() {
+//     fetchCartItemsToUpdate()
+// });
+
 
     </script>
 </body>

@@ -167,9 +167,7 @@ session_start(); // Start the session
                         <div id="cartItemsContainer"></div>
                         <div class= "btm-cart-buttons">
                         <button type="button" class="btn btn-danger cart-btn" onclick="clearCart()">Clear Cart</button>
-                        <button type="button" class="btn btn-primary openshopbutton " id="proceedToDeliveryButton" data-toggle="modal" data-target="#deliveryDetailsModal" onclick="clearCart()>
-    Proceed to Delivery Details
-</button>
+                        <button type="button" class="btn btn-primary openshopbutton " id="submitOrder" data-toggle="modal">Submit</button>
 </div>
 <p id="totalPriceContainer"></p>
 
@@ -197,19 +195,32 @@ session_start(); // Start the session
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+
+$(document).ready(function() {
+        // Get the URL parameter 'showCartModal'
+        const urlParams = new URLSearchParams(window.location.search);
+        const showCartModal = urlParams.get('showCartModal');
+
+        // Check if 'showCartModal' is set to 'true'
+        if (showCartModal === 'true') {
+            // Open the shopping cart modal
+            $('#shoppingListModal').modal('show');
+        }
+    });
             // Function to check if the shopping cart is empty
             // Can do a get request instead
-            function isCartEmpty() {
-    return <?php echo empty($_SESSION['cart']) ? 'true' : 'false'; ?>;
-}
         
-                   // Handle search button click
+        // Handle search button click
         $("#openButton").click(function() {
         fetchCartEmpty();
     });
 
+    $("#submitOrder").click(function() {
+        window.location.href = "deliveryform.php";
+        
+    });
+
     function fetchCartEmpty() {
-    let totalPrice = 0; // Initialize total price to zero
     $.ajax({
         url: 'cart_empty.php',
         type: 'GET',
@@ -217,8 +228,10 @@ session_start(); // Start the session
         success: function(response) {
             if (response.success) {
                 console.log("The shopping cart is empty.");
+                $("#submitOrder").prop("disabled", true);
             } else {
                 console.log("The shopping cart is not empty.");
+                $("#submitOrder").prop("disabled", false);
             }
 
         },
@@ -289,13 +302,6 @@ session_start(); // Start the session
         searchProducts(keyword); // Fetch products based on the search keyword
     });
 
-
-
-        // Handle search button click
-        $("#proceedToDeliveryButton").click(function() {
-        var keyword = $("#searchInput").val().trim(); // Get the search keyword
-        searchProducts(keyword); // Fetch products based on the search keyword
-    });
 
 
 
@@ -383,6 +389,7 @@ function removeFromCart(productId) {
             if (response.success) {
                 // Reload the cart items after successful removal
                 fetchCartItems();
+                fetchCartEmpty()
             } else {
                 console.error('Failed to remove item from cart');
             }
@@ -404,6 +411,7 @@ function updateCartItemQuantity(productId, quantity) {
             if (response.success) {
                 // Reload the cart items after successful update
                 fetchCartItems();
+                fetchCartEmpty()
             } else {
                 console.error('Failed to update item quantity');
             }
@@ -424,6 +432,7 @@ function clearCart() {
             if (response.success) {
                 // Reload the cart items after successful clearing
                 fetchCartItems();
+                fetchCartEmpty()
             } else {
                 console.error('Failed to clear the shopping cart');
             }
