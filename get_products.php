@@ -1,23 +1,19 @@
 <?php
-// Connect to the database
+
 $conn = mysqli_connect('localhost', 'afiz', '1234', 'grocerystore');
 if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
     exit;
 }
 
-// Check if the category parameter is provided
 if(isset($_GET['category'])) {
-    // Set the provided category
+
     $category = $_GET['category'];
 
-    // Prepare and execute the SQL query to fetch products based on the provided category
     $sql = "SELECT * FROM products WHERE category = '$category'";
     $result = mysqli_query($conn, $sql);
 
-    // Check if there are any results
     if(mysqli_num_rows($result) > 0) {
-        // Loop through each fetched product and generate a card
         while($row = mysqli_fetch_assoc($result)) {
             echo '<div class="card">';
             echo '<div class="card-body">';
@@ -33,7 +29,6 @@ if(isset($_GET['category'])) {
                 // If the product is in stock, make the button clickable
                 echo '<button type="button" class="btn btn-primary" onclick="addToCart(\'' . $row['product_id'] . '\',\'' . $row['product_name'] . '\', \'' . $row['unit_price'] . '\', \'' . $row['img'] . '\', \'' . $row['unit_quantity'] . '\')">Add to Cart</button>';
             } else {
-                // If the product is out of stock, disable the button
                 echo '<button type="button" class="btn btn-primary" disabled>Out of Stock</button>';
             }
             echo '</div>';
@@ -41,20 +36,17 @@ if(isset($_GET['category'])) {
             echo '</div>';
         }
     } else {
-        // If no products are found, display a message
         echo '<p>No products found for this category.</p>';
     }
-} elseif(isset($_GET['keyword'])) {
-    // Set the provided keyword
+}
+ elseif(isset($_GET['keyword'])) {
+
     $keyword = $_GET['keyword'];
 
-    // Prepare and execute the SQL query to search for products based on the keyword
     $sql = "SELECT * FROM products WHERE CONCAT(product_name, ' ', unit_quantity) LIKE '%$keyword%'";
     $result = mysqli_query($conn, $sql);
 
-    // Check if there are any results
     if(mysqli_num_rows($result) > 0) {
-        // Loop through each fetched product and generate a card
         while($row = mysqli_fetch_assoc($result)) {
             echo '<div class="card">';
             echo '<div class="card-body">';
@@ -67,10 +59,8 @@ if(isset($_GET['category'])) {
             echo '<p class="card-text"><strong>In Stock: </strong>' . $row['in_stock'] . '</p>';
             echo '<div class="centreBtn">';
             if ($row['in_stock'] > 0) {
-                // If the product is in stock, make the button clickable
                 echo '<button type="button" class="btn btn-primary" onclick="addToCart(\'' . $row['product_id'] . '\',\'' . $row['product_name'] . '\', \'' . $row['unit_price'] . '\', \'' . $row['img'] . '\', \'' . $row['unit_quantity'] . '\')">Add to Cart</button>';
             } else {
-                // If the product is out of stock, disable the button
                 echo '<button type="button" class="btn btn-primary" disabled>Out of Stock</button>';
             }
             echo '</div>';
@@ -78,16 +68,12 @@ if(isset($_GET['category'])) {
             echo '</div>';
         }
     } else {
-        // If no products are found, display a message
         echo '<p>No products found matching your search.</p>';
     }
 }
-
 else {
-    // If neither category nor keyword parameters are provided, display an error message
     echo 'Error: Category or keyword parameter is missing.';
 }
 
-// Close the database connection
 mysqli_close($conn);
 ?>
