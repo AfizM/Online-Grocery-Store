@@ -82,26 +82,24 @@ function getCartItems() {
             // Clear previous cart items
             $('#cartItemsContainer').empty();
             response.forEach(function(item) {
-                console.log(item.productId);
-                var html = '<div class="card-modal">';
-                html += '<div class="card-modal-body">';
-                html += '<div class="productimage">';
-                html += '<img src="img/' + item.productImage + '" class="card-img" alt="' + item.productName + '" />';
-                html += '</div>';
-                html += '<h5 class="card-title">' + item.productName + '</h5>';
-                html += '<p class="card-text"><strong>Price: </strong>$' + item.productPrice + '</p>';
-                html += '<p class="card-text"><strong>Unit Quantity: </strong>' + item.unitQuantity + '</p>';
-                html += '<p class="card-text"><strong>Quantity: </strong>' + item.quantity + '</p>';
-                html += '<div class="input-group">';
-                html += '<input type="number" id="quantityInput_' + item.productId + '" class="form-control" value="' + item.quantity + '">';
-                html += '<div class="input-group-append">';
-                html += '<button class="btn btn-primary" type="button" onclick="updateCartItemQuantity(' + item.productId + ', document.getElementById(\'quantityInput_' + item.productId + '\').value)">Update Quantity</button>';
-                html += '</div>';
-                html += '</div>';
-                html += '<button type="button" class="btn btn-danger" onclick="removeFromCart(' + item.productId + ')">Remove Item</button>';
-                html += '</div>';
-                html += '</div>';
-                $('#cartItemsContainer').append(html);
+                var cardHtml = '<div class="card mb-3">';
+                cardHtml += '<img src="img/' + item.productImage + '" class="card-img-top" alt="' + item.productName + '">';
+                cardHtml += '<div class="card-body">';
+                cardHtml += '<h5 class="card-title">' + item.productName + '</h5>';
+                cardHtml += '<p class="card-text"><strong>Price: </strong>$' + item.productPrice + '</p>';
+                cardHtml += '<p class="card-text"><strong>Unit Quantity: </strong>' + item.unitQuantity + '</p>';
+                cardHtml += '<p class="card-text"><strong>Quantity: </strong>' + item.quantity + '</p>';
+                cardHtml += '<div class="input-group">';
+                cardHtml += '<input type="number" id="quantityInput_' + item.productId + '" class="form-control" value="' + item.quantity + '">';
+                cardHtml += '<div class="input-group-append">';
+                cardHtml += '<button class="btn btn-primary" type="button" onclick="updateCartItemQuantity(' + item.productId + ', document.getElementById(\'quantityInput_' + item.productId + '\').value)">Update Quantity</button>';
+                cardHtml += '</div>';
+                cardHtml += '</div>';
+                cardHtml += '<button type="button" class="btn btn-danger" onclick="removeFromCart(' + item.productId + ')">Remove Item</button>';
+                cardHtml += '</div>';
+                cardHtml += '</div>';
+                
+                $('#cartItemsContainer').append(cardHtml);
                 totalPrice += parseFloat(item.productPrice) * parseInt(item.quantity);
             });
             $('#totalPriceContainer').text('Total Price: $' + totalPrice.toFixed(2));
@@ -111,6 +109,7 @@ function getCartItems() {
         }
     });
 }
+
 
 function getCartEmpty() {
     $.ajax({

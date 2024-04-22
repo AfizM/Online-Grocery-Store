@@ -13,11 +13,12 @@
             <h1>Online Grocery Store</h1>
          </div>
       </header>
+      <!-- Categories -->
       <div class="catcontainer">
       <div class="categories">
          <h2>Categories</h2>
          <ul>
-            <li>
+           
                <div class="category">
                   <a href="#" class="category-link Frozen">Frozen</a>
                   <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>
@@ -30,8 +31,8 @@
                      <li><a href="#" class="category-item">Tub Ice Cream 2 Litre</a></li>
                   </ul>
                </div>
-            </li>
-            <li>
+        
+        
                <div class="category">
                   <a href="#" class="category-link Medicine">Medicine</a>
                   <button class="btn btn-primary btn-sm ml-2" onclick="toggleSubcategories(this)">></button>

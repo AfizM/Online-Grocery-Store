@@ -14,8 +14,10 @@ if(isset($_GET['category'])) {
     $result = mysqli_query($conn, $sql);
 
     if(mysqli_num_rows($result) > 0) {
+        echo '<div class="row">';
         while($row = mysqli_fetch_assoc($result)) {
-            echo '<div class="card">';
+            echo '<div class="col-md-3">'; 
+            echo '<div class="card mb-4">';
             echo '<div class="card-body">';
             echo '<div class="productimage">';
             echo '<img src="img/' . $row['img'] . '" class="card-img" alt="Product Image" />';
@@ -26,7 +28,6 @@ if(isset($_GET['category'])) {
             echo '<p class="card-text"><strong>In Stock: </strong>' . $row['in_stock'] . '</p>';
             echo '<div class="centreBtn">';
             if ($row['in_stock'] > 0) {
-                // If the product is in stock, make the button clickable
                 echo '<button type="button" class="btn btn-primary" onclick="addToCart(\'' . $row['product_id'] . '\',\'' . $row['product_name'] . '\', \'' . $row['unit_price'] . '\', \'' . $row['img'] . '\', \'' . $row['unit_quantity'] . '\')">Add to Cart</button>';
             } else {
                 echo '<button type="button" class="btn btn-primary" disabled>Out of Stock</button>';
@@ -34,7 +35,9 @@ if(isset($_GET['category'])) {
             echo '</div>';
             echo '</div>';
             echo '</div>';
+            echo '</div>';
         }
+        echo '</div>';
     } else {
         echo '<p>No products found for this category.</p>';
     }
@@ -47,8 +50,10 @@ if(isset($_GET['category'])) {
     $result = mysqli_query($conn, $sql);
 
     if(mysqli_num_rows($result) > 0) {
+        echo '<div class="row">';
         while($row = mysqli_fetch_assoc($result)) {
-            echo '<div class="card">';
+            echo '<div class="col-md-3">'; 
+            echo '<div class="card mb-4">';
             echo '<div class="card-body">';
             echo '<div class="productimage">';
             echo '<img src="img/' . $row['img'] . '" class="card-img" alt="Product Image" />';
@@ -66,7 +71,9 @@ if(isset($_GET['category'])) {
             echo '</div>';
             echo '</div>';
             echo '</div>';
+            echo '</div>';
         }
+        echo '</div>';
     } else {
         echo '<p>No products found matching your search.</p>';
     }
