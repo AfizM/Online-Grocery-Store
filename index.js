@@ -83,7 +83,7 @@ function getCartItems() {
             $('#cartItemsContainer').empty();
             response.forEach(function(item) {
                 var cardHtml = '<div class="card mb-3">';
-                cardHtml += '<img src="img/' + item.productImage + '" class="card-img-top" alt="' + item.productName + '">';
+                cardHtml += '<img src="img/' + item.productImage + '" class="card-img-top " alt="' + item.productName + '">';
                 cardHtml += '<div class="card-body">';
                 cardHtml += '<h5 class="card-title">' + item.productName + '</h5>';
                 cardHtml += '<p class="card-text"><strong>Price: </strong>$' + item.productPrice + '</p>';

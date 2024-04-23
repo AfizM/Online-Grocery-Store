@@ -18,11 +18,11 @@
          }
       </style>
    </head>
-   <header class="bg-dark text-white py-4">
-      <div class="text-center">
-         <h1>Online Grocery Store</h1>
-      </div>
-   </header>
+   <header class="bg-primary text-white py-4">
+    <div class="container">
+        <img src="img/logo1.png" alt="Logo" class="img-fluid" style="height: 90px; display: block; margin: 0 auto;">
+    </div>
+</header>
    <body>
       <div class="container">
          <div class="row justify-content-center">

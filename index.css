@@ -1,8 +1,13 @@
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   font-size: 26px;
+}
+
+header{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 .catcontainer {
   display: flex;
@@ -25,19 +30,30 @@ body {
 }
 
 .categories {
-  list-style: none;
+ 
   margin: 0;
   padding: 20px;
   margin-right: 20px;
-  background-color: #f4f4f4;
-  border-radius: 5px;
+  /* background-color: #f4f4f4;
+  border-radius: 5px; */
   max-height: 100%;
   width: 25%;
+  height: 100vh;
+}
+
+ul{
+  background-color: #f4f4f4;
+  border-radius: 5px;
+
+}
+
+.category-item{
+  font-size: 20px;
 }
 .main-content {
   padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 5px;
+  /* background-color: #f4f4f4;
+  border-radius: 5px; */
   flex-grow: 3;
   height: 100%;
 }
@@ -57,26 +73,22 @@ body {
   margin-left: 50px;
 }
 
-/* .card {
-  width: 20%;
-}
-.cards {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 20px;
-} */
 
 .cardBorder {
   border-color: black;
   border-style: solid;
 }
 
-img {
-  width: 260px;
+
+.card-img{
   height: 240px;
   object-fit: scale-down;
 }
+.card-img-top{
+  height: 240px;
+  object-fit: scale-down;
+}
+
 
 .card-text {
   font-size: 17px;
@@ -97,6 +109,14 @@ img {
   flex-direction: column; /* Stack elements vertically */
   /* width: 20%; */
 }
+
+.card:hover {
+  background-color: #f0f0f0; /* Change background color */
+  color: #333; /* Change text color */
+}
+
+
+
 
 .card-body {
   display: flex; 
@@ -126,17 +146,15 @@ img {
 }
 
 .input-group {
-  margin-left: 50px;
+  margin-left: 45px;
   margin-bottom: 25px;
 }
-.card-modal-img {
-  width: 200px;
-  height: 240px;
-  object-fit: scale-down;
+.search-bar{
+  margin-left: 15px;
 }
 
 #cartItemsContainer {
-  display: flex;
+  display: flex;  
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -148,3 +166,8 @@ img {
   justify-content: center;
   align-items: center;
 }
+
+.search-title {
+  margin-left: 15px;
+}
+

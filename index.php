@@ -8,11 +8,12 @@
       <link rel="stylesheet" href="index.css" />
    </head>
    <body>
-      <header class="bg-dark text-white py-4">
-         <div class="text-center">
-            <h1>Online Grocery Store</h1>
-         </div>
-      </header>
+   <header class="bg-primary text-white py-3">
+    <div class="container">
+        <img src="img/logo1.png" alt="Logo" class="img-fluid" style="height: 80px; display: block; margin: 0 auto;">
+    </div>
+</header>
+
       <!-- Categories -->
       <div class="catcontainer">
       <div class="categories">
@@ -97,8 +98,8 @@
       </div>
       <!-- Main content area -->
       <div class="main-content">
-         <h2>Search for product:</h2>
-         <div class="input-group mb-3">
+         <h2 class="search-title">Search for products:</h2>
+         <div class="input-group mb-3 search-bar">
             <input type="text" class="form-control" id="searchInput" placeholder="Search Products" aria-label="Search Products" aria-describedby="button-addon2" />
             <div class="input-group-append">
                <button class="btn btn-outline-primary" type="button" id="searchButton"> Search </button>

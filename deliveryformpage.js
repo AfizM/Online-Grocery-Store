@@ -32,20 +32,36 @@ let totalPrice = 0;
 // 	document.getElementById('submitButton').disabled = !isFormValid;
 // });
 
-document.getElementById("deliveryForm").addEventListener("submit", function(event) {
+// document.getElementById("deliveryForm").addEventListener("submit", function(event) {
+// 	event.preventDefault();
+//     if(!validateForm()){
+//         alert('Please enter a valid email address and a 10-digit mobile number.');
+//         event.preventDefault(); // Prevent form submission if validation fails
+//     }
+//     else {
+//         submitForm();
+//     }
+// });
 
-  
-
+document.getElementById("submitButton").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+    if(validateForm()) {
+        submitForm();
+    } else {
+        alert('Please enter a valid email address and a 10-digit mobile number.');
+    }
 });
 
-$("#submitButton").click(function() {
-    if(validateForm()){
-        submitForm(); 
-    }
-    else{
-        alert('Please enter the domain name e.g .com');
-    }
-});
+
+
+// $("#submitButton").click(function() {
+//     if(validateForm()){
+//         submitForm(); 
+//     }
+//     else{
+//         alert('Please enter the domain name e.g .com');
+//     }
+// });
 
 
 
