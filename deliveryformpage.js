@@ -1,69 +1,22 @@
 
-function validateForm() {
-	var recipientName = document.getElementById('recipientName').value.trim();
-	var street = document.getElementById('street').value.trim();
-	var citySuburb = document.getElementById('citySuburb').value.trim();
-	var state = document.getElementById('state').value;
-	var mobileNumber = document.getElementById('mobileNumber').value.trim();
-	var email = document.getElementById('email').value.trim();
-	var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	if(!emailRegex.test(email)) {
-
-		return false;
-	}
-	var mobileRegex = /^[0-9]{10}$/;
-	if(!mobileRegex.test(mobileNumber)) {
-
-		return false;
-	}
-
-	return true;
-}
-
 let allItemsAvailable = true;
 let productNames = [];
 let productQuantities = [];
 let totalPrice = 0; 
 
-// document.getElementById('submitButton').disabled = true;
-
-// document.getElementById('deliveryForm').addEventListener('change', function() {
-// 	var isFormValid = document.getElementById('deliveryForm').checkValidity();
-// 	document.getElementById('submitButton').disabled = !isFormValid;
-// });
-
-// document.getElementById("deliveryForm").addEventListener("submit", function(event) {
-// 	event.preventDefault();
-//     if(!validateForm()){
-//         alert('Please enter a valid email address and a 10-digit mobile number.');
-//         event.preventDefault(); // Prevent form submission if validation fails
-//     }
-//     else {
-//         submitForm();
-//     }
-// });
-
-document.getElementById("submitButton").addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-    if(validateForm()) {
+document.getElementById("deliveryForm").addEventListener("submit", function(event) {
+	event.preventDefault(); 
+	let isFormValid = document.getElementById('deliveryForm').checkValidity();
+    if(isFormValid) {
         submitForm();
     } else {
-        alert('Please enter a valid email address and a 10-digit mobile number.');
+       prompt("form not valid")
     }
 });
 
-
-
-// $("#submitButton").click(function() {
-//     if(validateForm()){
-//         submitForm(); 
-//     }
-//     else{
-//         alert('Please enter the domain name e.g .com');
-//     }
-// });
-
-
+$("#backButton").click(function() {
+	window.location.href = "index.php?showCartModal=true";
+});
 
 function getCartItems() {
 	$.ajax({
@@ -118,7 +71,7 @@ function checkAvailability(productId, quantity) {
 		success: function(response) {
 			available = response.available; 
 			if(!available) {
-				alert(`${productId} is currently out of stock.`);
+				console.log(`${productId} is currently out of stock.`);
 				allItemsAvailable = false;
 			} else {
 				console.log(`${productId} is available.`);
@@ -142,7 +95,6 @@ function updateQuantity(productId, quantity) {
 		async: false,
 		success: function(response) {
 			console.log("success");
-			alert("success");
 		},
 		error: function(xhr, status, error) {
 			console.error(error);
@@ -178,13 +130,12 @@ function submitForm() {
 		clearCart();
 		document.getElementById("deliveryForm").submit();
 	} else {
-		alert('Some items in your cart are out of stock. Please remove them or adjust the quantity.');
-		window.location.href = "index.php?showCartModal=true";
+		document.getElementById('submitButton').disabled = true;
+		document.getElementById('errorMessage').style.display = 'block'; 
+		document.getElementById('backButton').style.display = 'inline'; 
+		// window.location.href = "index.php?showCartModal=true";
 		return false;
 	}
 }
 
 
-// $(document).ready(function() {
-//     fetchCartItemsToUpdate()
-// });

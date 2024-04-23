@@ -12,7 +12,6 @@ function toggleSubcategories(button) {
     subCategories.classList.toggle("open");
 }
 
-// Get products based on what category clicked
 $("a.category-link").click(function(e) {
     e.preventDefault(); 
     var category = $(this).text().trim(); 
@@ -221,7 +220,7 @@ function clearCart() {
         }
     });
 }
-// Call getCartItems initially to load cart items when the page loads
+
 $(document).ready(function() {
     getCartItems();
 });

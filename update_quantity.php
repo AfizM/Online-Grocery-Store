@@ -8,6 +8,7 @@ if (mysqli_connect_errno()) {
 }
 
 if(isset($_POST['productId'], $_POST['quantity'])) {
+    
     $productId = $_POST['productId'];
     $quantity = $_POST['quantity'];
     

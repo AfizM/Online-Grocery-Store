@@ -24,5 +24,4 @@ if(isset($_POST['productId'], $_POST['productName'], $_POST['productPrice'], $_P
 } else {
     echo json_encode(['success' => false]);
 }
-
 ?>

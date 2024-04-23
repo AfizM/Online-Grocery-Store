@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 $conn = mysqli_connect('localhost', 'afiz', '1234', 'grocerystore');
 if (mysqli_connect_errno()) {

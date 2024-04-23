@@ -18,11 +18,11 @@
          }
       </style>
    </head>
-   <header class="bg-primary text-white py-4">
-    <div class="container">
-        <img src="img/logo1.png" alt="Logo" class="img-fluid" style="height: 90px; display: block; margin: 0 auto;">
-    </div>
-</header>
+   <header class="bg-primary text-white py-3">
+      <div class="container">
+         <img src="img/logo1.png" alt="Logo" class="img-fluid" style="height: 80px; display: block; margin: 0 auto;">
+      </div>
+   </header>
    <body>
       <div class="container">
          <div class="row justify-content-center">
@@ -30,7 +30,7 @@
                <div class="card">
                   <div class="card-body">
                      <h5 class="card-title">Delivery Details</h5>
-                     <form id="deliveryForm" action="confirmation.php" method="post" onsubmit="return validateForm()">
+                     <form id="deliveryForm" action="confirmationpage.php" method="post">
                         <div class="form-group">
                            <label for="recipientName">Recipient's Name:</label>
                            <input type="text" class="form-control" id="recipientName" name="recipientName" required>
@@ -65,12 +65,14 @@
                         </div>
                         <div class="form-group">
                            <label for="email">Email Address:</label>
-                           <input type="email" class="form-control" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                           <input type="email" class="form-control" id="email" name="email" required>
+                           <div id="errorMessage" style="color: red; display: none;">Not enough available stock for an item in the cart. Please re-check the available stock for each item and adjust the quantity.</div>
                         </div>
                         <input type="hidden" id="productNamesInput" name="productNames">
                         <input type="hidden" id="productQuantitiesInput" name="productQuantities">
                         <input type="hidden" id="totalPriceInput" name="totalPrice">
                         <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                        <button type="button" style="display: none" class="btn btn-primary" id="backButton">Back to Cart</button>
                      </form>
                   </div>
                </div>
@@ -78,10 +80,9 @@
          </div>
       </div>
       <!-- Include jQuery and Bootstrap JS -->
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="deliveryformpage.js"></script>
    </body>
 </html>

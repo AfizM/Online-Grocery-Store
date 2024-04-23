@@ -17,7 +17,7 @@ if(isset($_GET['category'])) {
         echo '<div class="row">';
         while($row = mysqli_fetch_assoc($result)) {
             echo '<div class="col-md-3">'; 
-            echo '<div class="card mb-4">';
+            echo '<div class="card">';
             echo '<div class="card-body">';
             echo '<div class="productimage">';
             echo '<img src="img/' . $row['img'] . '" class="card-img" alt="Product Image" />';
@@ -53,7 +53,7 @@ if(isset($_GET['category'])) {
         echo '<div class="row">';
         while($row = mysqli_fetch_assoc($result)) {
             echo '<div class="col-md-3">'; 
-            echo '<div class="card mb-4">';
+            echo '<div class="card">';
             echo '<div class="card-body">';
             echo '<div class="productimage">';
             echo '<img src="img/' . $row['img'] . '" class="card-img" alt="Product Image" />';
